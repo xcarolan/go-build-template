@@ -14,15 +14,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// Package main is the entrypoint for myapp-2.
+// Package main is the entrypoint for cutoverlinter.
 package main
 
 import (
-	"log"
+	"fmt"
+	"github.com/ilyakaznacheev/cleanenv"
+	"os"
 
-	"github.com/thockin/go-build-template/pkg/version"
+	"audrahub.com/cutover/cmd/config"
 )
 
 func main() {
-	log.Printf("version: %s\n", version.Version)
+	var cfg config.Config
+
+	if err := cleanenv.ReadConfig("/home/scarolan/cutover/cmd/config/config.yaml", &cfg); err != nil {
+		fmt.Println(err)
+		os.Exit(2)
+	}
+	fmt.Println(cfg.Cutover.AppToken)
+	fmt.Println(cfg.Cutover.BaseURL)
+	fmt.Println(cfg.Cutover.WorkSpace)
+	fmt.Println(cfg.Cutover.InstanceName)
+
+	getApplications()
 }
